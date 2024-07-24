@@ -1,19 +1,21 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import loginIcons from '../assest/signin.gif'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
-const Login = () => {
-    const [showPassword, setShowPassword] = useState(true);
+
+
+const SignUp = () => {
+    const [showPassword, setShowPassword] = useState(false);
     const [data, setData] = useState({
         email : "",
         password : ""
     })
-
+    
     const handleChange = (e) => {
         const {name, value} = e.target;
-
+    
         setData((preve)=>{
             return {
                 ...preve,
@@ -21,16 +23,14 @@ const Login = () => {
             }
         })
     }
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
     }
 
-    console.log("data login", data)
-
-
+    
   return (
-    <section id='login'>
+    <section id='signup'>
         <div className='mx-auto container p-4'>
             <div className='bg-white p-5 w-full max-w-sm mx-auto'>
                 <div className='w-20 h-20 mx-auto'>
@@ -91,5 +91,4 @@ const Login = () => {
     </section>
   )
 }
-
-export default Login
+export default SignUp
