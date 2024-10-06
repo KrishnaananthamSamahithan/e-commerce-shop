@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import loginIcons from '../assest/signin.gif'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import imageToBase64 from '../helpers/imageToBase64';
+import SummaryApi from '../common/index';
+import { toast } from 'react-toastify';
 
 
 
@@ -17,6 +20,8 @@ const SignUp = () => {
         name : "",
         profilePic : "",
     })
+
+    const navigate = useNavigate()
     
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -29,9 +34,41 @@ const SignUp = () => {
         })
     }
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-    }
+      
+        if (data.password === data.confrimedPassword) {
+          try {
+            const dataResponse = await fetch(SummaryApi.signUp.url, {
+              method: SummaryApi.signUp.method,
+              headers: {
+                "Content-Type": "application/json" // Corrected Content-Type
+              },
+              body: JSON.stringify(data)
+            });
+      
+            if (!dataResponse.ok) {
+              throw new Error('Network response was not ok');
+            }
+      
+            const dataApi = await dataResponse.json();
+
+            if(dataApi.success){
+                toast.success(dataApi.message)
+                navigate("/login")
+            }
+
+            if(dataApi.error){
+                toast.error(dataApi.message)
+            }
+
+          } catch (error) {
+            console.error('There was an error!', error);
+          }
+        } else {
+          console.log("Password does not match the confirmed password");
+        }
+      };
 
     const handleUploadPic = async(e) => {
         const file = e.target.files[0];
