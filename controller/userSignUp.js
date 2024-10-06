@@ -1,11 +1,18 @@
 const bcrypt = require('bcrypt');
 const userModel = require('../models/userModels'); // Make sure userModel is correctly imported
+const { log } = require('console');
 
 async function userSignUpController(req, res) {
   try {
     const { email, password, name } = req.body;
 
-    console.log("req.body", req.body);
+    const user = await userModel.findOne({email})
+
+    console.log("üser",user)
+
+    if(user){
+      throw new Error("User already exists")
+    }
 
     // Validating input
     if (!email) {
@@ -44,10 +51,10 @@ async function userSignUpController(req, res) {
       message: "User Created Successfully",
     });
   } catch (err) {
-    res.status(400).json({
-      message: err.message, // Send the error message, not the error object
-      error: true,
-      success: false,
+      res.json({
+        message: err.message || err, // Send the error message, not the error object
+        error: true,
+        success: false,
     });
   }
 }
