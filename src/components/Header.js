@@ -27,7 +27,13 @@ const Header = () => {
 
           <div className='flex items-center gap-8'>
             <div className='text-3xl cursor-pointer'>
-              <FaRegUserCircle />
+              {
+                user?.profilePic? (
+                  <img src ={user?.profilePic} className='w-10 h-10 rounded-full' />
+                ) : (
+                  <FaRegUserCircle />
+                )
+              }
             </div>
 
             <div className='text-2xl relative'>

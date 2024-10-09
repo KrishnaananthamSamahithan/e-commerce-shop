@@ -17,7 +17,7 @@ const Login = () => {
     })
 
     const navigate = useNavigate()
-    const {generalContext} = useContext(Context)
+    const {fetchUserDetails} = useContext(Context)
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -47,7 +47,8 @@ const Login = () => {
         if(dataApi.success){
             toast.success(dataApi.message)
             navigate('/')
-            generalContext()
+            fetchUserDetails()
+            
         }
 
         if(dataApi.error){
