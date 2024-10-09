@@ -26,9 +26,21 @@ async function userSingInController(req,res){
 
         if(checkPassword){
             const tokenData = {
-
+                _id : user._id,
+                email : user.email
             }
-        const token = await jwt.sign(tokenData, process.env.TOCKEN_SECRET_KEY, {expireIn: 60 * 60})
+        const token = await jwt.sign(tokenData, process.env.TOCKEN_SECRET_KEY, {expiresIn: 60 * 60 * 8})
+        
+        const tokenOption = {
+            httpOnly : true,
+            secure : true
+        }
+        res.cookie("token", token, tokenOption).json({
+            message : "Login Successfully",
+            data : token,
+            success : true,
+            error : false
+        })
 
         }else{
             throw new Error("Please Check your password")
